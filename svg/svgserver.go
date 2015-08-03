@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"time"
 	"log"
+	"github.com/llgcode/draw2d/draw2dpdf"
+	"github.com/llgcode/draw2d"
 )
 
 func main() {
