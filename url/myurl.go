@@ -7,21 +7,23 @@ import (
 
 func main() {
 
-	var myUrl url.URL
-	myUrl.Scheme = "https"
-	myUrl.User = url.UserPassword("user", "password")
-	myUrl.Host = "second.host.tld"
-	myUrl.Path = "/uri/path/part"
-	myUrl.Fragment = "fragment"
+	params := &url.Values{}
+	params.Set("first", "1")
+	params.Set("second", `"is 2"`)
+	params.Set("third", "Last number")
+	params.Set("fourth", "4") // WARNING! All keys sorted by alphabet
+	params.Add("array", "1")
+	params.Add("array", "2")
+	params.Add("array", "3")
 
-	query := &url.Values{}
-	query.Add("array", "1")
-	query.Add("array", "2")
-	query.Add("array", "3")
-	query.Set("first", "1")
-	query.Set("second", `"is 2"`)
-	query.Set("third", "Last number")
-	myUrl.RawQuery = query.Encode()
+	myUrl := url.URL{
+		Scheme: "https",
+		User: url.UserPassword("user", "password"),
+		Host: "second.host.tld",
+		Path: "/uri/path/part",
+		RawQuery: params.Encode(),
+		Fragment: "fragment",
+	}
 
 	fmt.Println(myUrl.String())
 
