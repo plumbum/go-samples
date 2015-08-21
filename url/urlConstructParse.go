@@ -2,14 +2,16 @@ package main
 
 import (
 	"net/url"
-	"fmt"
+	"log"
+	"github.com/kr/pretty"
+	"strings"
 )
 
 func main() {
 
 	params := &url.Values{}
 	params.Set("first", "1")
-	params.Set("second", `"is 2"`)
+	params.Set("second", `"is quoted string"`)
 	params.Set("third", "Last number")
 	params.Set("fourth", "4") // WARNING! All keys sorted by alphabet
 	params.Add("array", "1")
@@ -25,6 +27,16 @@ func main() {
 		Fragment: "fragment",
 	}
 
-	fmt.Println(myUrl.String())
+	pretty.Println("Create URI string:", myUrl.String())
+
+	parsedUrl, err := url.Parse(myUrl.String()+"_tail")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	pretty.Println(strings.Repeat("=", 80))
+	pretty.Println("Parse URI string")
+	pretty.Println(parsedUrl)
+	pretty.Println(parsedUrl.Query())
 
 }
