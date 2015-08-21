@@ -37,7 +37,6 @@ import (
 	"math"
 
 	"golang.org/x/mobile/app"
-	"golang.org/x/mobile/event/config"
 	"golang.org/x/mobile/event/lifecycle"
 	"golang.org/x/mobile/event/paint"
 	"golang.org/x/mobile/event/touch"
@@ -45,6 +44,7 @@ import (
 	"golang.org/x/mobile/exp/f32"
 	"golang.org/x/mobile/exp/gl/glutil"
 	"golang.org/x/mobile/gl"
+	"golang.org/x/mobile/event/size"
 )
 
 var (
@@ -62,7 +62,7 @@ var (
 
 func main() {
 	app.Main(func(a app.App) {
-		var c config.Event
+		var c size.Event
 		for e := range a.Events() {
 			switch e := app.Filter(e).(type) {
 			case lifecycle.Event:
@@ -72,7 +72,7 @@ func main() {
 				case lifecycle.CrossOff:
 					onStop()
 				}
-			case config.Event:
+			case size.Event:
 				c = e
 				touchX = float32(c.WidthPx / 2)
 				touchY = float32(c.HeightPx / 2)
@@ -139,7 +139,7 @@ func onStop() {
 	gl.DeleteBuffer(buf)
 }
 
-func onPaint(c config.Event) {
+func onPaint(c size.Event) {
 	gl.ClearColor(0, 0.3, 0.3, 1)
 	gl.Clear(gl.COLOR_BUFFER_BIT)
 
