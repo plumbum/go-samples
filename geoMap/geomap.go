@@ -1,10 +1,12 @@
 package main
 
 import (
-	"go-samples/geoMap/yandexmap"
+	"github.com/plumbum/go-samples/geoMap/yandexmap"
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
 	"os"
+	"strings"
+	"github.com/kr/pretty"
+	"github.com/davecgh/go-spew/spew"
 )
 
 func main() {
@@ -16,12 +18,20 @@ func main() {
 	fmt.Println("Dial address:", address)
 
 	pn, err := yandexmap.Geocode(address, api)
-	fmt.Println(err)
+	if err != nil {
+		fmt.Println("Request error:", err)
+	}
+
+	printDelim("github.com/kr/pretty")
+	pretty.Println(pn)
+
+	printDelim("github.com/davecgh/go-spew/spew")
 	spew.Dump(pn)
+
 }
 
-func chk(err error) {
-	if err != nil {
-		panic(err)
-	}
+func printDelim(s string) {
+	fmt.Println(strings.Repeat("=", 80))
+	fmt.Println(s)
+	fmt.Println(strings.Repeat("=", 80))
 }
