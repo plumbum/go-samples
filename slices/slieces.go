@@ -27,5 +27,9 @@ func main() {
 	aslice := []int{201,202,203,204}
 	slice = append(slice, aslice...)
 	fmt.Printf("Append slice: cap=%d; len=%d; %v\r\n", cap(slice), len(slice), slice)
+
+	// String sliced
+	str := "Hello world!"
+	fmt.Println(str[6:11])
 }
 
