@@ -1,17 +1,19 @@
 package main
 
+// Use Go 1.5
+
 import (
 	"fmt"
 	"time"
+	"flag"
+	"sync"
+	"os"
 	"log"
 	"runtime/pprof"
-	"flag"
-	"os"
-	"sync"
 	"runtime"
 )
 
-const COUNT = 1e10
+const COUNT = 2e9
 
 // Если нужно в цикле изменять переменную от нуля до какого-то значения,
 // то конструкция через range не только более наглядная, но и немного
@@ -68,19 +70,24 @@ func cycleInt() (uint64, uint64) {
 func timeDecorator(fn func() (uint64, uint64), name string, wg *sync.WaitGroup) (func()) {
 	return func() {
 		fmt.Println(name, "== BEGIN =======================================================================")
+		runtime.GC()
 		start := time.Now()
 		sum, cnt := fn()
 		fmt.Println(name, "Time:", time.Since(start)) // Сколько прошло времени. Это удобнее чем руками фиксировать конечное время
 		fmt.Println(name, "Sum:", sum)
 		fmt.Println(name, "Count:", cnt)
 		fmt.Println(name, "== END =========================================================================")
-		wg.Done()
+		if wg != nil {
+			wg.Done()
+		}
 	}
 }
 
 var (
 	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
 	memprofile = flag.String("memprofile", "", "write memory profile to this file")
+	useRoutines = flag.Bool("routines", false, "Use Go Routines for work")
+	testNum = flag.Int("test", -1, "0 - classic, 1 - int, 2 - interface, 3 - struct")
 )
 
 type I interface{}
@@ -110,24 +117,47 @@ func main() {
 
 	start := time.Now()
 
-	var wg sync.WaitGroup
+	if *testNum >= 0 {
+		switch *testNum {
+		case 0:
+			timeDecorator(cycleClassic,   "Classic  :", nil)()
+		case 1:
+			timeDecorator(cycleInt,       "Int      :", nil)()
+		case 2:
+			timeDecorator(cycleInterface, "Interface:", nil)()
+		case 3:
+			timeDecorator(cycleStruct,    "Struct   :", nil)()
+		}
+	} else {
+		if ! *useRoutines {
+			timeDecorator(cycleStruct,    "Struct   :", nil)()
+			timeDecorator(cycleInterface, "Interface:", nil)()
+			timeDecorator(cycleInt,       "Int      :", nil)()
+			timeDecorator(cycleClassic,   "Classic  :", nil)()
+			timeDecorator(cycleInterface, "Interface:", nil)()
+			timeDecorator(cycleStruct,    "Struct   :", nil)()
+			timeDecorator(cycleClassic,   "Classic  :", nil)()
+			timeDecorator(cycleInt,       "Int      :", nil)()
+		} else {
+			var wg sync.WaitGroup
 
-	wg.Add(1)
-	go timeDecorator(cycleInt,       "Int      :", &wg)()
+			wg.Add(1)
+			go timeDecorator(cycleInt,       "Int      :", &wg)()
 
-	wg.Add(1)
-	go timeDecorator(cycleClassic,   "Classic  :", &wg)()
+			wg.Add(1)
+			go timeDecorator(cycleClassic,   "Classic  :", &wg)()
 
-	wg.Add(1)
-	go timeDecorator(cycleInterface, "Interface:", &wg)()
+			wg.Add(1)
+			go timeDecorator(cycleInterface, "Interface:", &wg)()
 
-	wg.Add(1)
-	go timeDecorator(cycleStruct,    "Struct   :", &wg)()
+			wg.Add(1)
+			go timeDecorator(cycleStruct,    "Struct   :", &wg)()
 
-	wg.Wait()
+			wg.Wait()
+		}
+	}
 
 	fmt.Println("Total time:", time.Since(start))
-
 
 	if *memprofile != "" {
 		f, err := os.Create(*memprofile)
