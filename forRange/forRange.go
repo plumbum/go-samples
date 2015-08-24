@@ -26,6 +26,7 @@ func cycleInterface() (int, int) {
 	return sum, cnt
 }
 
+// А вот перебор с классической формой цикла почему-то медленнее
 func cycleClassic() (int, int) {
 	sum := 0
 	cnt := 0
@@ -68,6 +69,12 @@ type I interface{}
 
 func main() {
 
+	// Предварительное описание пустого интерфейса позволяет подсократить запись цикла
+	for i := range [5]I{} {
+		fmt.Println(i)
+	}
+
+
 	// Set number of CPU usage
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
@@ -81,11 +88,6 @@ func main() {
 		}
 		pprof.StartCPUProfile(f)
 		defer pprof.StopCPUProfile()
-	}
-
-	// Предварительное описание пустого интерфейса позволяет подсократить запись цикла
-	for i := range [5]I{} {
-		fmt.Println(i)
 	}
 
 	start := time.Now()
