@@ -28,6 +28,18 @@ func cycleInterface() (uint64, uint64) {
 	return sum, cnt
 }
 
+func cycleStruct() (uint64, uint64) {
+	// Predefined variable types
+	var sum uint64 = 0
+	var cnt uint64 = 0
+	var i int
+	for i = range [COUNT]struct{}{} {
+		sum += (uint64)(i)
+		cnt++
+	}
+	return sum, cnt
+}
+
 // А вот перебор с классической формой цикла почему-то медленнее
 func cycleClassic() (uint64, uint64) {
 	// Predefined variable types
@@ -108,6 +120,9 @@ func main() {
 
 	wg.Add(1)
 	go timeDecorator(cycleInterface, "Interface:", &wg)()
+
+	wg.Add(1)
+	go timeDecorator(cycleStruct,    "Struct   :", &wg)()
 
 	wg.Wait()
 
