@@ -16,38 +16,44 @@ const COUNT = 1e10
 // Если нужно в цикле изменять переменную от нуля до какого-то значения,
 // то конструкция через range не только более наглядная, но и немного
 // быстрее классического for
-func cycleInterface() (int, int) {
-	sum := 0
-	cnt := 0
-	for i := range [COUNT]interface{}{} {
-		sum += i
+func cycleInterface() (uint64, uint64) {
+	// Predefined variable types
+	var sum uint64 = 0
+	var cnt uint64 = 0
+	var i int
+	for i = range [COUNT]interface{}{} {
+		sum += (uint64)(i)
 		cnt++
 	}
 	return sum, cnt
 }
 
 // А вот перебор с классической формой цикла почему-то медленнее
-func cycleClassic() (int, int) {
-	sum := 0
-	cnt := 0
-	for i := 0; i < COUNT; i++ {
-		sum += i
+func cycleClassic() (uint64, uint64) {
+	// Predefined variable types
+	var sum uint64 = 0
+	var cnt uint64 = 0
+	var i int
+	for i = 0; i < COUNT; i++ {
+		sum += (uint64)(i)
 		cnt++
 	}
 	return sum, cnt
 }
 
-func cycleInt() (int, int) {
-	sum := 0
-	cnt := 0
-	for i := range [COUNT]int{} {
-		sum += i
+func cycleInt() (uint64, uint64) {
+	// Predefined variable types
+	var sum uint64 = 0
+	var cnt uint64 = 0
+	var i int
+	for i = range [COUNT]int{} {
+		sum += (uint64)(i)
 		cnt++
 	}
 	return sum, cnt
 }
 
-func timeDecorator(fn func() (int, int), name string, wg *sync.WaitGroup) (func()) {
+func timeDecorator(fn func() (uint64, uint64), name string, wg *sync.WaitGroup) (func()) {
 	return func() {
 		fmt.Println(name, "== BEGIN =======================================================================")
 		start := time.Now()
