@@ -7,6 +7,8 @@ import (
 	"runtime/pprof"
 	"flag"
 	"os"
+	"sync"
+	"runtime"
 )
 
 const COUNT = 1e10
@@ -44,16 +46,17 @@ func cycleInt() (int, int) {
 	return sum, cnt
 }
 
-func timeDecorator(fn func() (int, int)) (func()) {
+func timeDecorator(fn func() (int, int), name string, wg *sync.WaitGroup) (func()) {
 	return func() {
-		log.Println("== BEGIN =======================================================================")
+		fmt.Println(name, "== BEGIN =======================================================================")
 		timeBegin := time.Now().UnixNano()
 		sum, cnt := fn()
 		timeEnd := time.Now().UnixNano()
-		fmt.Println("Sum:", sum)
-		fmt.Println("Count:", cnt)
-		fmt.Println("Time:", (timeEnd - timeBegin)/1000, "us")
-		log.Println("== END =========================================================================")
+		fmt.Println(name, "Sum:", sum)
+		fmt.Println(name, "Count:", cnt)
+		fmt.Println(name, "Time:", (timeEnd - timeBegin)/1000, "us")
+		fmt.Println(name, "== END =========================================================================")
+		wg.Done()
 	}
 }
 
@@ -65,6 +68,9 @@ var (
 type I interface{}
 
 func main() {
+
+	// Set number of CPU usage
+	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	// Profiling http://blog.golang.org/profiling-go-programs
 
@@ -83,14 +89,25 @@ func main() {
 		fmt.Println(i)
 	}
 
-	fmt.Println("Dummy cycle. Wait a few seconds...")
+	timeBegin := time.Now().UnixNano()
 
-	fmt.Println("Int range for")
-	timeDecorator(cycleInt)()
-	fmt.Println("Classic for")
-	timeDecorator(cycleClassic)()
-	fmt.Println("Interface range for")
-	timeDecorator(cycleInterface)()
+	var wg sync.WaitGroup
+
+	wg.Add(1)
+	go timeDecorator(cycleInt,       "Int      :", &wg)()
+
+	wg.Add(1)
+	go timeDecorator(cycleClassic,   "Classic  :", &wg)()
+
+	wg.Add(1)
+	go timeDecorator(cycleInterface, "Interface:", &wg)()
+
+	wg.Wait()
+
+	timeEnd := time.Now().UnixNano()
+
+	fmt.Println("Total time:", (timeEnd - timeBegin)/1000, "us")
+
 
 	if *memprofile != "" {
 		f, err := os.Create(*memprofile)
