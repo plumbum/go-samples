@@ -49,12 +49,11 @@ func cycleInt() (int, int) {
 func timeDecorator(fn func() (int, int), name string, wg *sync.WaitGroup) (func()) {
 	return func() {
 		fmt.Println(name, "== BEGIN =======================================================================")
-		timeBegin := time.Now().UnixNano()
+		start := time.Now()
 		sum, cnt := fn()
-		timeEnd := time.Now().UnixNano()
+		fmt.Println(name, "Time:", time.Since(start)) // Сколько прошло времени. Это удобнее чем руками фиксировать конечное время
 		fmt.Println(name, "Sum:", sum)
 		fmt.Println(name, "Count:", cnt)
-		fmt.Println(name, "Time:", (timeEnd - timeBegin)/1000, "us")
 		fmt.Println(name, "== END =========================================================================")
 		wg.Done()
 	}
@@ -89,7 +88,7 @@ func main() {
 		fmt.Println(i)
 	}
 
-	timeBegin := time.Now().UnixNano()
+	start := time.Now()
 
 	var wg sync.WaitGroup
 
@@ -104,9 +103,7 @@ func main() {
 
 	wg.Wait()
 
-	timeEnd := time.Now().UnixNano()
-
-	fmt.Println("Total time:", (timeEnd - timeBegin)/1000, "us")
+	fmt.Println("Total time:", time.Since(start))
 
 
 	if *memprofile != "" {
