@@ -1,0 +1,4 @@
+HOME = "test"
+[section]
+first = 1
+second = 2

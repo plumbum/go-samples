@@ -1,0 +1,14 @@
+HOME: test
+first: 1
+second: 2
+list:
+  - one
+  - two
+  - three
+records:
+  -
+    name: user
+    password: secret
+  -
+    name: John Dou
+    password: simple
