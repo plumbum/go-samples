@@ -32,6 +32,9 @@ func main() {
 	fmt.Println(cfg.GetInt("section.first"))
 	fmt.Println(cfg.GetInt("section.second"))
 
+	// Case insensitive
+	fmt.Println(cfg.GetString("home"))
+	fmt.Println(cfg.GetString("Home"))
 	fmt.Println(cfg.GetString("HOME"))
 
 	fmt.Println(strings.Repeat("-", 80))

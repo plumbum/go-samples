@@ -1,4 +1,4 @@
-HOME = "test"
+Home = "test"
 [section]
 first = 1
 second = 2
