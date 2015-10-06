@@ -24,27 +24,29 @@ func main() {
 
 	cfg := onion.New()
 
+	// Get command line flags
+	fs := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+	c_cmd := flagslayer.NewFlagLayer(fs)
+	c_cmd.SetString("home", "home", "none", "Set home directory")
+	c_cmd.SetBool("enable", "enable", false, "Enable demo")
+	c_cmd.SetBool("verbose", "v", false, "More verbose output")
+	c_cmd.SetInt64("int", "i", 0, "Integer")
+	err = cfg.AddLayer(c_cmd)
+	check(err)
+
 	// Load YAML config
-	l1 := onion.NewFileLayer("config.yaml")
-	err = cfg.AddLayer(l1)
+	c_yaml := onion.NewFileLayer("config.yaml")
+	err = cfg.AddLayer(c_yaml)
 	check(err)
 
 	// Load TOML config
-	l2 := onion.NewFileLayer("config.toml")
-	err = cfg.AddLayer(l2)
+	c_toml := onion.NewFileLayer("config.toml")
+	err = cfg.AddLayer(c_toml)
 	check(err)
 
 	// Get ENV variables
-	l3 := onion.NewEnvLayer("HOME")
-	err = cfg.AddLayer(l3)
-	check(err)
-
-	// Get command line flags
-	fs := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
-	l4 := flagslayer.NewFlagLayer(fs)
-	l4.SetString("home", "home", "none", "Set home directory")
-	l4.SetBool("enable", "enable", false, "Enable demo")
-	err = cfg.AddLayer(l4)
+	c_env := onion.NewEnvLayer("HOME", "USER")
+	err = cfg.AddLayer(c_env)
 	check(err)
 
 	// Print results
@@ -63,6 +65,7 @@ func main() {
 	fmt.Println(cfg.GetString("home"))
 	fmt.Println(cfg.GetString("Home"))
 	fmt.Println(cfg.GetString("HOME"))
+	fmt.Println(cfg.GetString("user"))
 
 	fmt.Println(strings.Repeat("-", 80))
 }
