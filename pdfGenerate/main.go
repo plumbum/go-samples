@@ -1,8 +1,8 @@
 package main
 
 import (
-	"log"
 	"github.com/jung-kurt/gofpdf"
+	"log"
 	"github.com/jung-kurt/gofpdf/contrib/barcode"
 	"github.com/boombuler/barcode/code128"
 	"github.com/boombuler/barcode/qr"
@@ -38,6 +38,28 @@ func main() {
 	// QR-code
 	keyqr := barcode.RegisterQR(pdf, "tuxotronic.org", qr.H, qr.Unicode)
 	barcode.Barcode(pdf, keyqr, 10, 100, 40, 40, false)
+
+	var x1, y1 float64 = 100, 250
+	var xc, yc float64 = 25, 225
+	var x2, y2 float64 = 200, 150
+	pdf.SetFillColor(192, 192, 192)
+	pdf.SetDrawColor(0, 192, 0)
+	pdf.Curve(x1, y1, xc, yc, x2, y2, "DF")
+	pdf.SetDrawColor(192, 0, 0)
+	pdf.Line(x1, y1, xc, yc)
+	pdf.Line(x2, y2, xc, yc)
+
+	// pdf.Arc(60, 60, 70, 70, 1.0, 0.5, 2.0, "DF")
+	poly := []gofpdf.PointType{
+		{150, 10},
+		{200, 10},
+		{150, 110},
+		{200, 110},
+	}
+	pdf.SetDrawColor(0, 192, 0)
+	pdf.Beziergon(poly, "DF");
+	pdf.SetDrawColor(192, 0, 0)
+	pdf.Polygon(poly, "D")
 
 	err = pdf.OutputFileAndClose("hello.pdf")
 	if err != nil {
