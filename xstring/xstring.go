@@ -7,8 +7,8 @@ import (
 
 type Xstring string
 
-func (xs *Xstring) String() string {
-	return string(*xs)
+func (xs Xstring) String() string {
+	return string(xs)
 }
 
 func (xs *Xstring) TrimSpaceLeft() *Xstring {
@@ -24,8 +24,8 @@ func (xs *Xstring) TrimSpaceRight() *Xstring {
 func main() {
 
 	var s Xstring = "      Hello world!     "
-	fmt.Println("[",s,"]")
-	fmt.Println("[",s.TrimSpaceRight(),"]")
-	fmt.Println("[",s.TrimSpaceLeft(),"]")
+	fmt.Printf("[%s]\n", s)
+	fmt.Printf("[%s]\n", s.TrimSpaceRight())
+	fmt.Printf("[%s]\n", s.TrimSpaceLeft())
 
 }
