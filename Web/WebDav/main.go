@@ -38,11 +38,20 @@ func main() {
 	}
 
 	//then use the Handler.ServeHTTP Method as the http.HandleFunc
-	http.HandleFunc("/dav/", authenticator.Wrap(
-		func(w http.ResponseWriter, r *auth.AuthenticatedRequest) {
-			h.ServeHTTP(w, &r.Request)
-			log.Print("...done")
-		}))
+	http.HandleFunc("/dav/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		default:
+			if username := authenticator.CheckAuth(r); username == "" {
+				authenticator.RequireAuth(w, r)
+				return
+			} else {
+			}
+		case http.MethodGet, http.MethodOptions, "PROPFIND":
+			// No need auth
+		}
+		h.ServeHTTP(w, r)
+		log.Print("...done")
+	})
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("content-type", "text/html; charset=UTF-8")
