@@ -18,7 +18,16 @@ IDE
 Web
 ---
 
-  * [GoProxy](https://github.com/elazarl/goproxy) Package goproxy provides a customizable HTTP proxy library. Example: [Trace HTTP Requests and Responses](https://github.com/elazarl/goproxy/tree/master/examples/goproxy-httpdump)
+  * Package [GoProxy](https://github.com/elazarl/goproxy) provides a customizable HTTP proxy library. Example: [Trace HTTP Requests and Responses](https://github.com/elazarl/goproxy/tree/master/examples/goproxy-httpdump)
+
+Database
+--------
+
+  * [Bolt DB](https://github.com/boltdb/bolt) is a pure Go key/value store.
+  * [Go FreeTDS](https://github.com/minus5/gofreetds) wrapper. Native Sql Server & Sybase database driver.
+  * [XO](https://github.com/knq/xo) is a cli tool to generate Golang types and funcs based on a database schema or a custom query.
+  * [Scaneo](https://github.com/variadico/scaneo) - Generate Go code to convert database rows into arbitrary structs.
+  * [Pg Web](https://github.com/sosedoff/pgweb) Web-based PostgreSQL database browser written in Go.
 
 Graphics
 ---------
