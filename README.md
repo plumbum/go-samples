@@ -29,6 +29,13 @@ Database
   * [Scaneo](https://github.com/variadico/scaneo) - Generate Go code to convert database rows into arbitrary structs.
   * [Pg Web](https://github.com/sosedoff/pgweb) Web-based PostgreSQL database browser written in Go.
 
+Email
+-----
+
+  * [Gomail](https://github.com/go-gomail/gomail/) Gomail is a simple and efficient package to send emails. It is well tested and documented.
+  * ??? [Email](https://github.com/jordan-wright/email) Robust and flexible email library for Go
+  * [DKIM](https://github.com/toorop/go-dkim) DKIM package for Golang
+
 Graphics
 ---------
 
