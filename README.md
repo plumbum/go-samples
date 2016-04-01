@@ -28,7 +28,14 @@ Graphics
   * [SVGo](https://github.com/ajstarks/svgo) - создание SVG. [Пример](svgoserver/svgoserver.go)
   * [Barcode generator](github.com/boombuler/barcode) - генератор штрихкодов
       (Codabar, Code 128, Code 39, EAN 8, EAN 13, Datamatrix, QR Codes, 2 of 5). [Пример](barcode/barcode.go)
-      
+
+Console
+-------
+
+  * [UI Progress](https://github.com/gosuri/uiprogress) - A Go library to render progress bars in terminal applications.
+  * [Term tables](https://github.com/apcera/termtables) -  fast and simple ASCII table generation.
+  * [UI table](https://github.com/gosuri/uitable) - is a go library for representing data as tables for terminal applications. It provides primitives for sizing and wrapping columns to improve readability.
+
 Other
 -----
 
