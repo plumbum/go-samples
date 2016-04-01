@@ -1,6 +1,8 @@
 Go-Samples
 ==========
 
+[Awesome Go](https://github.com/avelino/awesome-go) - A curated list of awesome Go frameworks, libraries and software.
+
 Tools
 -----
   * [MailHog](https://github.com/mailhog/MailHog) MailHog is an email testing tool for developers.
@@ -27,4 +29,8 @@ Graphics
   * [Barcode generator](github.com/boombuler/barcode) - генератор штрихкодов
       (Codabar, Code 128, Code 39, EAN 8, EAN 13, Datamatrix, QR Codes, 2 of 5). [Пример](barcode/barcode.go)
       
-  
+Other
+-----
+
+  * [GoDash](https://github.com/alioygur/godash) check and conversion utility.
+  * [GoValidator](https://github.com/asaskevich/govalidator) A package of validators and sanitizers for strings, structs and collections.
