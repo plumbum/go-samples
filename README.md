@@ -8,7 +8,7 @@ Tools
   * [MailHog](https://github.com/mailhog/MailHog) MailHog is an email testing tool for developers.
   * [Go WSDL generator](https://github.com/hooklift/gowsdl) Generates Go code from a WSDL file.
   * [Orange cat](https://github.com/noraesae/orange-cat) A Markdown previewer written in Go.
-
+  * [Show deps](https://github.com/rogpeppe/showdeps) an opinionated tool for inspecting Go package dependencies.
 IDE
 ---
 
@@ -55,5 +55,7 @@ Console
 Other
 -----
 
+  * [Xstrings](https://github.com/huandu/xstrings) is a collection of string functions, which are widely used in other languages but absent in Go package strings.
+  * [slug](https://github.com/gosimple/slug) generate slug from unicode string, URL-friendly slugify with multiple languages support.
   * [GoDash](https://github.com/alioygur/godash) check and conversion utility.
   * [GoValidator](https://github.com/asaskevich/govalidator) A package of validators and sanitizers for strings, structs and collections.
