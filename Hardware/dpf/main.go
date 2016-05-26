@@ -8,6 +8,7 @@ import (
 
 	"github.com/deadsy/libusb"
 	"image"
+	"image/color"
 	"math/rand"
 )
 
@@ -15,7 +16,6 @@ func main() {
 
 	log.SetOutput(os.Stderr)
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-
 
 	dpf, err := OpenDpf()
 	if err != nil {
@@ -34,7 +34,7 @@ func main() {
 
 	rand.Seed(time.Now().Unix())
 	r := image.Rect(0, 0, w-1, h-1)
-	bufSize := w*h*2
+	bufSize := w * h * 2
 	buf := make([]byte, bufSize, bufSize)
 	bufEmpty := make([]byte, bufSize, bufSize)
 
@@ -67,19 +67,19 @@ const (
 	USBCMD_BLIT        = 0x12 // USB command: Blit to screen
 
 	AX206_INTERFACE = 0x00
-	AX206_ENDP_OUT = 0x01
-	AX206_ENDP_IN = 0x81
+	AX206_ENDP_OUT  = 0x01
+	AX206_ENDP_IN   = 0x81
 )
 
 type DPF struct {
-	Width int
+	Width  int
 	Height int
-	Debug bool
+	Debug  bool
 
-	ctx libusb.Context
-	udev libusb.Device_Handle
-	hasCtx bool
-	hasUdev bool
+	ctx      libusb.Context
+	udev     libusb.Device_Handle
+	hasCtx   bool
+	hasUdev  bool
 	hasClaim bool
 }
 
@@ -107,7 +107,6 @@ func OpenDpf() (*DPF, error) {
 	}
 	dpf.hasClaim = true
 
-
 	return dpf, nil
 }
 
@@ -123,7 +122,6 @@ func (dpf *DPF) Close() {
 		dpf.hasCtx = false
 	}
 }
-
 
 func (dpf *DPF) GetDimensions() (width, height int, err error) {
 	cmd := []byte{
@@ -292,4 +290,3 @@ func (dpf *DPF) scsiRead(cmd []byte, blockLen int) ([]byte, error) {
 
 	return data, nil
 }
-
