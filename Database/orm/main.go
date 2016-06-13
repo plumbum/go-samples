@@ -20,6 +20,7 @@ type User struct {
 	Birthday *time.Time
 	ActivateKey *string `gorm:"size:32;index"`
 	ActivateExpire *time.Time
+	LoginCounter int
 }
 
 func main() {
@@ -72,6 +73,9 @@ func main() {
 	out, err := json.MarshalIndent(users, "", "  ") // Empty prefix and 2 spaces indent
 	chk(err)
 	fmt.Println(string(out))
+
+	users[0].LoginCounter++
+	db.Update(&users[0])
 
 }
 
