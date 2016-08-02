@@ -109,24 +109,14 @@ func initGUI() {
 			}(), false)
 			box.Append(func() *ui.Group {
 				combo := ui.NewCombobox()
-				combo.Append("Line 1")
-				combo.Append("Line 2")
-				combo.Append("Line 3")
-				combo.Append("Line 4")
+				combo.Append("First")
+				combo.Append("Second")
+				combo.Append("Third")
+				combo.Append("Fourth")
 				combo.OnSelected(func(cb *ui.Combobox) {
-					ui.MsgBoxError(window, "OnSelected", "Line " + strconv.Itoa(cb.Selected() + 1))
+					ui.MsgBoxError(window, "OnSelected", "Line #" + strconv.Itoa(cb.Selected() + 1))
 				})
 				group := ui.NewGroup("Can't get text, only index")
-				group.SetChild(combo)
-				return group
-			}(), false)
-			box.Append(func() *ui.Group {
-				combo := ui.NewEditableCombobox()
-				combo.Append("Line 1")
-				combo.Append("Line 2")
-				combo.Append("Line 3")
-				combo.Append("Line 4")
-				group := ui.NewGroup("Can't get text, only index. It's bad")
 				group.SetChild(combo)
 				return group
 			}(), false)
