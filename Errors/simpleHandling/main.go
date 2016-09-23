@@ -16,7 +16,7 @@ func subErr(err error) error {
 }
 
 func getError() error {
-	err := errors.New("my error")
+	err := fmt.Errorf("my error")
 	err = subErr(err)
 	return errors.Wrap(err, "exit")
 }
@@ -33,4 +33,5 @@ func main() {
 	pp.Println("Error: ", err)
 	fmt.Printf("[%+v]\n", err)
 	fmt.Printf("{%+v}\n", errors.Cause(err))
+	fmt.Printf("[%v]\n", err)
 }
