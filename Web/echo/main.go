@@ -37,6 +37,10 @@ func main() {
 		return c.JSON(200, demoData)
 	})
 
+	e.GET("/error", func (c echo.Context) error {
+		return echo.NewHTTPError(500, "Error here")
+	})
+
 	e.Run(standard.New(":8888"))
 
 }
