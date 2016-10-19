@@ -29,10 +29,12 @@ func LoadLoremImage() (*image.RGBA, error) {
 
 func initGUI() {
 
+	/*
 	ff := ui.ListFontFamilies()
 	for i := 0; i < ff.NumFamilies(); i++ {
 		log.Printf("%3d. Font family '%s'\n", i + 1, ff.Family(i))
 	}
+	*/
 
 	window := ui.NewWindow("Привет мир!", 800, 480, false)
 	window.SetMargined(true)
