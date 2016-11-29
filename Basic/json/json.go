@@ -4,9 +4,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/plumbum/go-samples/Basic/json/data"
+	"log"
+	"github.com/k0kubun/pp"
 )
 
+type Item []int
+
+type Arrays struct {
+	Arr []Item `json:"arr"`
+}
+
 func main() {
+	var err error
 
 	ta := &data.Users{}
 	ta.Users = []data.Item{
@@ -17,13 +26,23 @@ func main() {
 		{5, "Ken", "123"},
 	}
 
+	log.Println("Marshal default")
 	str, err := json.Marshal(ta)
 	chk(err)
 	fmt.Println(string(str))
 
+	log.Println("Marshal ffjson")
 	str2, err := ta.MarshalJSON()
 	chk(err)
 	fmt.Println(string(str2))
+
+	log.Println("Unmarshal array")
+	json_str := `{"arr": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}`
+	a := new(Arrays)
+
+	err = json.Unmarshal([]byte(json_str), a)
+	chk(err)
+	pp.Println(a)
 
 }
 
