@@ -10,10 +10,6 @@ import (
 
 type Item []int
 
-type Arrays struct {
-	Arr []Item `json:"arr"`
-}
-
 func main() {
 	var err error
 
@@ -37,10 +33,10 @@ func main() {
 	fmt.Println(string(str2))
 
 	log.Println("Unmarshal array")
-	json_str := `{"arr": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}`
-	a := new(Arrays)
+	json_str := `[[1, 2, 3], [4, 5, 6], [7, 8, 9]]`
+	a := make([]Item, 0)
 
-	err = json.Unmarshal([]byte(json_str), a)
+	err = json.Unmarshal([]byte(json_str), &a)
 	chk(err)
 	pp.Println(a)
 
